@@ -1,16 +1,16 @@
 # Cursor Rules
 
-A persistent shell with ephemeral work artifacts.
+A persistent shell for ad-hoc projects, using git branches to isolate work.
 
 ## Core Rule
 All generated files go in `work/` unless explicitly told otherwise.
 
 ## Directory Structure
 
-**`work/`** — Ephemeral workspace (read/write)
+**`work/`** — Project workspace (read/write)
 - All generated files, experiments, prototypes, and temporary output go here
 - Safe to overwrite anything here at any time
-- Contents may be deleted without warning
+- Contents are tracked by git and isolated per-branch
 
 **`tools/`** — Persistent utility scripts (read only)
 - Helper scripts and automation tools

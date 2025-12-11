@@ -1,14 +1,33 @@
 # Scratch Workspace
 
-A persistent shell for ephemeral work—ideal for experiments, prototyping, and LLM-assisted tasks.
+A persistent shell for ad-hoc projects—ideal for experiments, prototyping, and LLM-assisted tasks. Uses git branches to isolate projects while keeping a clean context for AI assistants.
 
 ## Quick Start
 
 1. Open this workspace in Cursor
-2. Generate files, experiment, prototype — everything lands in `work/`
-3. When done: `./tools/cleanup.sh`
+2. Create a branch for your project: `git checkout -b project-name`
+3. Generate files, experiment, prototype — everything lands in `work/`
+4. Commit your work: `git add -A && git commit -m "checkpoint"`
+5. Done? Return to clean slate: `git checkout main`
 
-Everything in `work/` is disposable. Everything else persists.
+Need to reference old work? `git checkout project-name` or `git show project-name:work/file.py`
+
+---
+
+## Branch Workflow
+
+```
+main              ← Clean slate (empty work/, always ready)
+├── project-foo   ← work/ contains foo project
+├── project-bar   ← work/ contains bar project
+└── ...
+```
+
+**Why branches?**
+- **Clean AI context** — Only current project files are visible to the model
+- **Lightweight archival** — Reference old work without separate repos
+- **Instant reset** — `git checkout main` clears the workspace
+- **Low overhead** — No subdirectories cluttering `work/`
 
 ---
 
@@ -16,16 +35,16 @@ Everything in `work/` is disposable. Everything else persists.
 
 ```
 scratch/
-├── work/           ← Your ephemeral workspace (do anything here)
+├── work/           ← Your project workspace (tracked per-branch)
 ├── tools/          ← Persistent utility scripts
 ├── templates/      ← Reusable scaffolds and examples
 ├── .cursorrules    ← Instructions for AI assistants (auto-loaded by Cursor)
 ├── README.md       ← You are here
-└── .gitignore      ← Tracks only persistent files
+└── .gitignore      ← Tracks work/ contents for branch-based archival
 ```
 
 ### `work/`
-The scratch pad. All generated files, experiments, and temporary output go here. Delete contents freely—the cleanup script does exactly this.
+Your active workspace. All generated files go here. Contents are tracked by git and isolated per-branch.
 
 ### `tools/`
 Helper scripts that support the workspace. Currently includes:
@@ -47,14 +66,38 @@ No need to `@mention` it—Cursor reads it automatically.
 
 ---
 
-## Maintenance
+## Common Operations
 
-Reset the workspace:
+**Start a new project:**
+```bash
+git checkout main
+git checkout -b project-name
+```
+
+**Save progress:**
+```bash
+git add -A && git commit -m "description"
+```
+
+**Switch projects:**
+```bash
+git checkout project-other
+```
+
+**Return to clean slate:**
+```bash
+git checkout main
+```
+
+**Reference old code without switching:**
+```bash
+git show project-name:work/script.py
+```
+
+**Clean up current branch's work/ (keep branch):**
 ```bash
 ./tools/cleanup.sh
 ```
-
-This clears everything in `work/` except the `.keep` marker file.
 
 ---
 
@@ -62,7 +105,7 @@ This clears everything in `work/` except the `.keep` marker file.
 
 - **Predictable environment** for AI assistants—clear rules, stable structure
 - **Rapid iteration** without polluting real projects
-- **Clean separation** between persistent config and throwaway work
-- **Version controlled structure** with untracked scratch content
+- **Clean AI context** — no stale files confusing the model
+- **Lightweight archival** — reference past work without repo sprawl
 
 If you modify the persistent structure, update `.cursorrules` to match.
