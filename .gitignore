@@ -1,0 +1,19 @@
+# Whitelist approach: ignore everything, then explicitly track persistent files
+
+# Ignore everything by default
+*
+
+# Track persistent workspace structure
+!.gitignore
+!.cursorrules
+!README.md
+
+# Track persistent directories (and their contents)
+!tools/
+!tools/**
+!templates/
+!templates/**
+
+# Keep work/ directory structure but ignore contents
+!work/
+!work/.keep

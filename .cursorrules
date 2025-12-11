@@ -1,0 +1,41 @@
+# Cursor Rules
+
+A persistent shell with ephemeral work artifacts.
+
+## Core Rule
+All generated files go in `work/` unless explicitly told otherwise.
+
+## Directory Structure
+
+**`work/`** — Ephemeral workspace (read/write)
+- All generated files, experiments, prototypes, and temporary output go here
+- Safe to overwrite anything here at any time
+- Contents may be deleted without warning
+
+**`tools/`** — Persistent utility scripts (read only)
+- Helper scripts and automation tools
+- Modify only when explicitly requested
+
+**`templates/`** — Reusable scaffolds (read only)
+- Reference examples and starting points
+- When using a template, create the result in `work/`
+
+**`./` (root)** — Workspace configuration (read only)
+- Persistent files that define workspace behavior
+- Includes .cursorrules, README, .gitignore
+
+## Actions Requiring Explicit Permission
+- Modify files outside `work/`
+- Delete any file
+- Create files in root, tools, or templates
+- Initialize git, package managers, or build systems
+
+## Protected
+- `.keep` files: never delete (preserve empty directories in version control)
+- `.cursorrules`, `tools/*`, `templates/*`: modify only when explicitly requested
+
+## Defaults
+- Ambiguous location → use `work/`
+- Conflict with these rules → follow the rules unless user explicitly overrides
+- Unsure about modifying → ask first
+
